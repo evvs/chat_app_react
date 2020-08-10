@@ -17,10 +17,7 @@ const Channels = (props) => {
       <div className="d-flex justify-content-center"><span className="font-weight-light">Channels</span></div>
       <ul className="list-group list-group-flush">
         {channels.map(({ id, name }) => {
-          const buttonClasses = cn({
-            btn: true,
-            'btn-primary': true,
-            'btn-block': true,
+          const buttonClasses = cn('btn', 'btn-primary', 'btn-block', {
             active: id === currentChannel,
           });
           return (
