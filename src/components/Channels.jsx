@@ -2,16 +2,11 @@ import React from 'react';
 import cn from 'classnames';
 import { connect } from 'react-redux';
 
-const mapStateToProps = ({ channels }) => {
-  const { byId, allIds, currentChannel } = channels;
-  return {
-    channels: allIds.map((id) => byId[id]),
-    currentChannel,
-  };
-};
+const mapStateToProps = ({ channels }) => ({ channels });
 
 const Channels = (props) => {
-  const { channels, currentChannel } = props;
+  const { channels: { channels, currentChannel } } = props;
+
   return (
     <div className="border-right">
       <div className="d-flex justify-content-center"><span className="font-weight-light">Channels</span></div>

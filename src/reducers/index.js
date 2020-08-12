@@ -7,14 +7,12 @@ const channels = handleActions(
   {
     // eslint-disable-next-line no-shadow
     [actions.getGonData]: (state, { payload: { channels } }) => ({
-      byId: _.keyBy(channels, 'id'),
-      allIds: channels.map(({ id }) => id),
+      channels,
       currentChannel: 1,
     }),
   },
   {
-    byId: {},
-    allIds: [],
+    channels: [],
     currentChannel: null,
   },
 );
@@ -23,19 +21,15 @@ const messages = handleActions(
   {
     [actions.addNewMessage]: (state, { payload: { message } }) => {
       return [...state, message];
-    }
+    },
   },
-  [{
-    id: 1,
-    channelId: 1,
-    author: 'Kiri',
-    data: 'Hello from messages',
-  },{
-    id: 2,
-  channelId: 1,
-  author: 'eri',
-  data: 'Hello qweqweqweages',
-}],
+  [//{
+    // id: 1,
+    // channelId: 1,
+    // author: 'Kiri',
+    // data: 'Hello from messages',
+  //}, {
+  ],
 );
 
 export default combineReducers({

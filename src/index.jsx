@@ -8,12 +8,13 @@ import 'regenerator-runtime/runtime';
 
 import '../assets/application.scss';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 
-// import faker from 'faker';
+import faker from 'faker';
 import gon from 'gon';
-// import cookies from 'js-cookie';
-// import io from 'socket.io-client';
+import cookies from 'js-cookie';
+import io from 'socket.io-client';
 import reducer from './reducers';
 import App from './components/App';
 import { getGonData } from './actions';
@@ -29,7 +30,20 @@ console.log('gon', window.gon);
 const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
 const devtoolMiddleware = ext && ext();
 
-const store = createStore(reducer, devtoolMiddleware);
+const store = createStore(reducer, compose(
+  applyMiddleware(thunk),
+  devtoolMiddleware,
+));
 
 store.dispatch(getGonData(window.gon));
+
+const userName = faker.internet.userName();
+if (!cookies.get('username')) {
+  cookies.set('username', userName);
+}
+
+const socket = io();
+
+socket.on('connect', () => console.log('connected to socket!!!'));
+
 render(<Provider store={store}><App /></Provider>, document.getElementById('chat'));
