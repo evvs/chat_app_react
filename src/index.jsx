@@ -12,12 +12,14 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import faker from 'faker';
+// eslint-disable-next-line no-unused-vars
 import gon from 'gon';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
 import reducer from './reducers';
 import App from './components/App';
-import { getGonData } from './actions';
+import { getGonData, addNewMessage } from './actions';
+import UserNameContext from './components/UserNameContex';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -45,5 +47,10 @@ if (!cookies.get('username')) {
 const socket = io();
 
 socket.on('connect', () => console.log('connected to socket!!!'));
+socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(addNewMessage(attributes)));
 
-render(<Provider store={store}><App /></Provider>, document.getElementById('chat'));
+render(
+  <Provider store={store}>
+    <UserNameContext.Provider value={cookies.get('username')}><App /></UserNameContext.Provider>
+  </Provider>, document.getElementById('chat'),
+);

@@ -7,24 +7,26 @@ const mapStateToProps = ({ messages, channels: { currentChannel } }) => {
   console.log('currM', currentChannelMessages, currentChannel);
   return { currentChannelMessages };
 };
+const Message = (props) => {
+  const { author, text } = props;
+  return (
+    <div>
+      <b>{author}</b>
+      {': '}
+      {text}
+    </div>
+  );
+};
 
 const Messages = (props) => {
   const { currentChannelMessages } = props;
   return (
-    <div className="d-flex flex-column justify-content-between flex-grow-1">
-      <ul className="list-group list-group-flush">
-        {currentChannelMessages.map(({ author, data, id }) => {
-          const AuthorMessage = () => <span className="text-primary">{author}</span>;
-          const TextMessage = () => <span>{data}</span>;
-          return (
-            <li key={id} className="list-group-item list-special">
-              <AuthorMessage />
-              {': '}
-              <TextMessage />
-            </li>
-          );
-        })}
-      </ul>
+    <div className="d-flex flex-column justify-content-between flex-grow-1 w-100">
+      <div className="overflow-auto">
+        {currentChannelMessages.map(({
+          author, text, id,
+        }) => <Message key={id} author={author} text={text} />)}
+      </div>
       <SendMessageForm />
     </div>
   );

@@ -1,15 +1,14 @@
 import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
-import _ from 'lodash';
 import * as actions from '../actions';
 
 const channels = handleActions(
   {
-    // eslint-disable-next-line no-shadow
     [actions.getGonData]: (state, { payload: { channels } }) => ({
       channels,
       currentChannel: 1,
     }),
+    [actions.changeChannel]: (state, { payload: { id } }) => ({ ...state, currentChannel: id }),
   },
   {
     channels: [],
@@ -19,9 +18,8 @@ const channels = handleActions(
 
 const messages = handleActions(
   {
-    [actions.addNewMessage]: (state, { payload: { message } }) => {
-      return [...state, message];
-    },
+    [actions.getGonData]: (state, { payload: { messages } }) => messages,
+    [actions.addNewMessage]: (state, { payload }) => [...state, payload],
   },
   [//{
     // id: 1,
