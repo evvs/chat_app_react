@@ -1,33 +1,23 @@
-import { connect } from 'react-redux';
 import React from 'react';
-import SendMessageForm from './SendMessageForm';
+import { connect } from 'react-redux';
 
-const mapStateToProps = ({ messages, channels: { currentChannel } }) => {
-  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannel);
-  console.log('currM', currentChannelMessages, currentChannel);
-  return { currentChannelMessages };
-};
-const Message = (props) => {
-  const { author, text } = props;
-  return (
-    <div>
-      <b>{author}</b>
-      {': '}
-      {text}
-    </div>
-  );
-};
+const mapStateToProps = ({ messages, channels }) => ({
+  messages,
+  currentChannelId: channels.currentChannel,
+});
 
 const Messages = (props) => {
-  const { currentChannelMessages } = props;
+  const { messages, currentChannelId } = props;
+  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
   return (
-    <div className="d-flex flex-column justify-content-between flex-grow-1 w-100">
-      <div className="overflow-auto">
-        {currentChannelMessages.map(({
-          author, text, id,
-        }) => <Message key={id} author={author} text={text} />)}
-      </div>
-      <SendMessageForm />
+    <div>
+      {currentChannelMessages.map(({ id, author, text }) => (
+        <div key={id} className="text-break">
+          <span className="text-primary">{author}</span>
+          {': '}
+          {text}
+        </div>
+      ))}
     </div>
   );
 };

@@ -1,18 +1,14 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
-import * as reduxActions from '../actions';
-import UserNameContext from './UserNameContex';
+import { sendMessage } from '../slices/messages';
 
-const mapDispatchToProps = { sendMessage: reduxActions.sendMessage };
-const mapStateToProps = (state) => {
-  const { channels: { currentChannel } } = state;
-  return { currentChannel };
+const mapActionsToProps = {
+  sendMessageAsync: sendMessage,
 };
 
 const SendMessageForm = (props) => {
-  const author = useContext(UserNameContext);
-  const { currentChannel, sendMessage } = props;
+  const { sendMessageAsync } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -20,7 +16,11 @@ const SendMessageForm = (props) => {
     },
     onSubmit: (values, actions) => {
       console.log(values.inputMessage);
-      sendMessage({ currentChannel, text: values.inputMessage, author });
+      sendMessageAsync({
+        channelId: 1,
+        author: 'Me',
+        text: values.inputMessage,
+      });
       actions.resetForm();
     },
   });
@@ -43,4 +43,4 @@ const SendMessageForm = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SendMessageForm);
+export default connect(null, mapActionsToProps)(SendMessageForm);

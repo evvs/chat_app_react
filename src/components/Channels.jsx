@@ -1,39 +1,34 @@
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import React from 'react';
-import cn from 'classnames';
 import { connect } from 'react-redux';
-import * as reduxActions from '../actions';
+import { setCurrentChannel } from '../slices/channels';
 
 const mapStateToProps = ({ channels }) => ({ channels });
-const mapDispatchToProps = { changeChannel: reduxActions.changeChannel };
+const mapActionsToProps = {
+  setChannel: setCurrentChannel,
+};
 
 const Channels = (props) => {
-  const { channels: { channels, currentChannel }, changeChannel } = props;
-
-  const changeChannelHandler = (id) => (e) => {
-    e.preventDefault();
-    changeChannel({ id });
+  const { channels: { allChannels, currentChannel }, setChannel } = props;
+  const changeChannelHandler = (id) => (event) => {
+    event.preventDefault();
+    setChannel({ id });
   };
 
+  const buttons = allChannels.map(({ name, id}) => (
+    <Button key={id} active={currentChannel === id} onClick={changeChannelHandler(id)}>
+      {name}
+    </Button>
+  ));
   return (
-    <div className="border-right">
-      <div className="d-flex justify-content-center">
-        <span>Channels</span>
-        <button type="button" className="btn btn-primary btn-sm ml-1">+</button>
-      </div>
-      <ul className="list-group list-group-flush">
-        {channels.map(({ id, name }) => {
-          const buttonClasses = cn('btn', 'btn-primary', 'btn-block', {
-            active: id === currentChannel,
-          });
-          return (
-            <li key={id} className="list-group-item">
-              <button className={buttonClasses} type="button" onClick={changeChannelHandler(id)}>{name}</button>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <>
+      <div className="text-muted text-center">Channels</div>
+      <ButtonGroup vertical className="d-flex">
+        {buttons}
+      </ButtonGroup>
+    </>
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Channels);
+export default connect(mapStateToProps, mapActionsToProps)(Channels);

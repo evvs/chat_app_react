@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/evvs/frontend-project-lvl4.git"
   },
-  "author": "Kirill Mokevnin",
+  "author": "Evgeny Valyaev",
   "license": "ISC",
   "homepage": "",
   "dependencies": {

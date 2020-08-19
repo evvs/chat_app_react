@@ -1,43 +1,33 @@
 // @ts-check
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
 import '../assets/application.scss';
-
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-
 import faker from 'faker';
-// eslint-disable-next-line no-unused-vars
 import gon from 'gon';
 import cookies from 'js-cookie';
 import io from 'socket.io-client';
-import reducer from './reducers';
+import React from 'react';
+import { render } from 'react-dom';
+import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+import { init } from './slices/channels';
+import { addMessage } from './slices/messages';
+import reducers from './slices';
 import App from './components/App';
-import { getGonData, addNewMessage } from './actions';
-import UserNameContext from './components/UserNameContex';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
+const store = configureStore({
+  reducer: reducers,
+});
+
 console.log('it works!');
-console.log('gon', window.gon);
+console.log('gon', gon);
 
-// eslint-disable-next-line no-underscore-dangle
-const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
-const devtoolMiddleware = ext && ext();
-
-const store = createStore(reducer, compose(
-  applyMiddleware(thunk),
-  devtoolMiddleware,
-));
-
-store.dispatch(getGonData(window.gon));
+store.dispatch(init(window.gon));
 
 const userName = faker.internet.userName();
 if (!cookies.get('username')) {
@@ -47,10 +37,8 @@ if (!cookies.get('username')) {
 const socket = io();
 
 socket.on('connect', () => console.log('connected to socket!!!'));
-socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(addNewMessage(attributes)));
+socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(addMessage(attributes)));
 
 render(
-  <Provider store={store}>
-    <UserNameContext.Provider value={cookies.get('username')}><App /></UserNameContext.Provider>
-  </Provider>, document.getElementById('chat'),
+  <Provider store={store}><App /></Provider>, document.getElementById('chat'),
 );
