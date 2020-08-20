@@ -3,6 +3,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import React from 'react';
 import { connect } from 'react-redux';
 import { setCurrentChannel } from '../slices/channels';
+import AddChannelButton from "./AddChannelButton";
 
 const mapStateToProps = ({ channels }) => ({ channels });
 const mapActionsToProps = {
@@ -22,12 +23,13 @@ const Channels = (props) => {
     </Button>
   ));
   return (
-    <>
+    <div>
       <div className="text-muted text-center">Channels</div>
+      <AddChannelButton />
       <ButtonGroup vertical className="d-flex">
         {buttons}
       </ButtonGroup>
-    </>
+    </div>
   );
 };
 

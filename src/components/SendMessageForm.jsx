@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useLayoutEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { sendMessage } from '../slices/messages';
@@ -9,6 +9,14 @@ const mapActionsToProps = {
 
 const SendMessageForm = (props) => {
   const { sendMessageAsync } = props;
+
+  const inputField = useRef(null);
+
+  useLayoutEffect(() => {
+    //inputField.current.focus();
+
+    //console.log(inputField.current.hasFocus());
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -33,6 +41,7 @@ const SendMessageForm = (props) => {
           id="inputMessage"
           name="inputMessage"
           type="text"
+          ref={inputField}
           className="form-control w-75 ml-1"
           onChange={formik.handleChange}
           value={formik.values.inputMessage}

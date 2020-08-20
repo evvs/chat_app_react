@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createSlice, createAsyncThunk  } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import routes from '../routes';
 import { init } from './channels';
 
