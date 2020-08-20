@@ -4,11 +4,12 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
 import { close } from '../../slices/modal';
+import { addNewChannel } from '../../slices/channels';
 
-const mapActionsToProps = { closeModal: close };
+const mapActionsToProps = { closeModal: close, addNewChannelAsync: addNewChannel };
 
 const AddChannelModalForm = (props) => {
-  const { closeModal } = props;
+  const { closeModal, addNewChannelAsync } = props;
 
   const handleClose = () => {
     closeModal();
@@ -18,8 +19,11 @@ const AddChannelModalForm = (props) => {
     initialValues: {
       channel: '',
     },
-    onSubmit: values => {
-      console.log('success')
+    onSubmit: (values) => {
+      addNewChannelAsync({
+        name: values.channel,
+      })
+      console.log('success', values.channel);
     },
   });
   return (
