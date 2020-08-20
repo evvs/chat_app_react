@@ -11,7 +11,7 @@ const App = () => (
       <Col sm={3}>
         <Channels />
       </Col>
-      <Col sm={8} className="d-flex flex-column justify-content-between">
+      <Col sm={8} className="d-flex flex-column justify-content-between border-left">
         <Messages />
         <SendMessageForm />
       </Col>

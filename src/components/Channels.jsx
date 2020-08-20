@@ -18,7 +18,7 @@ const Channels = (props) => {
   };
 
   const buttons = allChannels.map(({ name, id}) => (
-    <Button key={id} active={currentChannel === id} onClick={changeChannelHandler(id)}>
+    <Button key={id} active={currentChannel === id} onClick={changeChannelHandler(id)} name={name}>
       {name}
     </Button>
   ));

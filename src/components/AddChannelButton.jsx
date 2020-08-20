@@ -12,7 +12,7 @@ const AddChannelButton = (props) => {
   };
 
   return (
-    <Button className="mb-3" variant="success" block onClick={openHandle}>add channel</Button>
+    <Button className="mb-3" variant="outline-primary" block onClick={openHandle}>add channel</Button>
   );
 };
 

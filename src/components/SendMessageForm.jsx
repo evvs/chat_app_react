@@ -6,17 +6,10 @@ import { sendMessage } from '../slices/messages';
 const mapActionsToProps = {
   sendMessageAsync: sendMessage,
 };
+const mapStateToProps = ({ channels: { currentChannel } }) => ({ currentChannel });
 
 const SendMessageForm = (props) => {
-  const { sendMessageAsync } = props;
-
-  const inputField = useRef(null);
-
-  useLayoutEffect(() => {
-    //inputField.current.focus();
-
-    //console.log(inputField.current.hasFocus());
-  });
+  const { sendMessageAsync, currentChannel } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -25,7 +18,7 @@ const SendMessageForm = (props) => {
     onSubmit: (values, actions) => {
       console.log(values.inputMessage);
       sendMessageAsync({
-        channelId: 1,
+        channelId: currentChannel,
         author: 'Me',
         text: values.inputMessage,
       });
@@ -41,7 +34,6 @@ const SendMessageForm = (props) => {
           id="inputMessage"
           name="inputMessage"
           type="text"
-          ref={inputField}
           className="form-control w-75 ml-1"
           onChange={formik.handleChange}
           value={formik.values.inputMessage}
@@ -52,4 +44,4 @@ const SendMessageForm = (props) => {
   );
 };
 
-export default connect(null, mapActionsToProps)(SendMessageForm);
+export default connect(mapStateToProps, mapActionsToProps)(SendMessageForm);

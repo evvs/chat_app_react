@@ -1,22 +1,19 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import { close } from '../../slices/modal';
-import AddChannelModal from './AddChannelModal';
+import AddChannelModalForm from './AddChannelModalForm';
 
 const mapActionsToProps = { closeModal: close };
 const mapStateToProps = ({ modal: { type, show } }) => ({ type, show });
 
 const modalTypes = {
-  addChannel: AddChannelModal,
+  addChannel: <AddChannelModalForm />,
 };
 
 const ModalComponent = (props) => {
   const { show, closeModal, type } = props;
-
-  const MemoBody = useMemo(() => modalTypes[type], [type]);
-
-  //const ModalBody = modalTypes[type];
+  const body = modalTypes[type];
 
   const handleClose = () => {
     closeModal();
@@ -24,7 +21,7 @@ const ModalComponent = (props) => {
 
   return (
     <Modal show={show} onHide={handleClose} backdrop="static">
-      <MemoBody />
+      {body}
     </Modal>
   );
 };
