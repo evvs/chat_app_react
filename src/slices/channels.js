@@ -24,6 +24,29 @@ export const addNewChannel = createAsyncThunk(
   },
 );
 
+export const renameChannel = createAsyncThunk(
+  'channels/renameChannel',
+  async ({ id, name }, { dispatch }) => {
+    try {
+      console.log(id);
+      await axios.patch(routes.channelPath(id), {
+        data: {
+          attributes: {
+            name,
+          },
+        },
+      },
+        { params: { id } });
+      dispatch(close());
+    } catch (err) {
+      //if (!err.response) {
+      //dispatch(errorActions.addError(err));
+      //throw err;
+      console.log(err);
+    }
+  },
+);
+
 export const deleteChannel = createAsyncThunk(
   'channels/deleteChannel',
   async (id, { dispatch }) => {
@@ -51,6 +74,11 @@ const channels = createSlice({
       allChannels: action.payload.channels,
       currentChannel: 1,
     }),
+    reChannel: (state, action) => {
+      const { id, attributes: { name } } = action.payload;
+      const channel = state.allChannels.find((cChhannel) => cChhannel.id === id);
+      channel.name = name;
+    },
     addChannel: (state, action) => {
       const {
         id, name, removable,
@@ -59,12 +87,19 @@ const channels = createSlice({
         id, name, removable,
       });
     },
+    delChannel: (state, action) => {
+      const { channelId } = action.payload;
+      const newChannelList = state.allChannels.filter(({ id }) => id !== channelId);
+      return { ...state, allChannels: newChannelList };
+    },
     setCurrentChannel: (state, action) => ({ ...state, currentChannel: action.payload.id }),
   },
   extraReducers: {
+    [renameChannel.fulfilled]: () => {},
+    [deleteChannel.fulfilled]: () => {},
     [addNewChannel.fulfilled]: () => {},
   },
 });
 
-export const { init, setCurrentChannel, addChannel } = channels.actions;
+export const { init, setCurrentChannel, addChannel, delChannel, reChannel } = channels.actions;
 export default channels.reducer;

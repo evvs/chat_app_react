@@ -11,7 +11,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import { init, addChannel } from './slices/channels';
+import { init, addChannel, delChannel, reChannel } from './slices/channels';
 import { addMessage } from './slices/messages';
 import reducers from './slices';
 import App from './components/App';
@@ -39,8 +39,10 @@ const socket = io();
 socket.on('connect', () => console.log('connected to socket!!!'));
 socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(addMessage(attributes)));
 socket.on('newChannel', ({ data: { attributes } }) => store.dispatch(addChannel(attributes)));
-socket.on('removeChannel', (data) => console.log(data));
-
+socket.on('removeChannel', ({ data }) => {
+  store.dispatch(delChannel({ channelId: data.id }));
+});
+socket.on('renameChannel', ({ data }) => store.dispatch(reChannel(data)));
 
 render(
   <Provider store={store}><App /></Provider>, document.getElementById('chat'),

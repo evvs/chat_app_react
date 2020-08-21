@@ -25,11 +25,13 @@ const DeleteChannelModal = (props) => {
   return(
     <>
       <Modal.Header closeButton>
-        <Modal.Title>DELETE CHANNEL</Modal.Title>
+        <Modal.Title><span className="text-danger">DELETE CHANNEL</span></Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Delete channel:
-        {clickedElemName}
+        Delete channel
+        <span className="text-primary">
+          {` ${clickedElemName}`}
+        </span>
         !
         Are you sure?
       </Modal.Body>
@@ -38,7 +40,7 @@ const DeleteChannelModal = (props) => {
           Close
         </Button>
         <Button variant="primary" onClick={handleDelete}>
-          Save Changes
+          Delete
         </Button>
       </Modal.Footer>
     </>
