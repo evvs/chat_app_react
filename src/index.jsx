@@ -15,6 +15,7 @@ import { init, addChannel, delChannel, reChannel } from './slices/channels';
 import { addMessage } from './slices/messages';
 import reducers from './slices';
 import App from './components/App';
+import { UserNameProvider } from './Context';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -33,9 +34,9 @@ const userName = faker.internet.userName();
 if (!cookies.get('username')) {
   cookies.set('username', userName);
 }
+const username = cookies.get('username');
 
 const socket = io();
-
 socket.on('connect', () => console.log('connected to socket!!!'));
 socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(addMessage(attributes)));
 socket.on('newChannel', ({ data: { attributes } }) => store.dispatch(addChannel(attributes)));
@@ -45,7 +46,11 @@ socket.on('removeChannel', ({ data }) => {
 socket.on('renameChannel', ({ data }) => store.dispatch(reChannel(data)));
 
 render(
-  <Provider store={store}><App /></Provider>, document.getElementById('chat'),
+  <Provider store={store}>
+    <UserNameProvider value={username}>
+      <App />
+    </UserNameProvider>
+  </Provider>, document.getElementById('chat'),
 );
 
 export default store.dispatch;

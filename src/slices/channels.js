@@ -16,9 +16,9 @@ export const addNewChannel = createAsyncThunk(
       });
       dispatch(close());
     } catch (err) {
-      //if (!err.response) {
-      //dispatch(errorActions.addError(err));
-      //throw err;
+      // if (!err.response) {
+      // dispatch(errorActions.addError(err));
+      // throw err;
       console.log(err);
     }
   },
@@ -36,12 +36,12 @@ export const renameChannel = createAsyncThunk(
           },
         },
       },
-        { params: { id } });
+      { params: { id } });
       dispatch(close());
     } catch (err) {
-      //if (!err.response) {
-      //dispatch(errorActions.addError(err));
-      //throw err;
+      // if (!err.response) {
+      // dispatch(errorActions.addError(err));
+      // throw err;
       console.log(err);
     }
   },
@@ -55,9 +55,9 @@ export const deleteChannel = createAsyncThunk(
       await axios.delete(routes.channelPath(id), { params: { id } });
       dispatch(close());
     } catch (err) {
-      //if (!err.response) {
-      //dispatch(errorActions.addError(err));
-      //throw err;
+      // if (!err.response) {
+      // dispatch(errorActions.addError(err));
+      // throw err;
       console.log(err);
     }
   },
@@ -101,5 +101,7 @@ const channels = createSlice({
   },
 });
 
-export const { init, setCurrentChannel, addChannel, delChannel, reChannel } = channels.actions;
+export const {
+  init, setCurrentChannel, addChannel, delChannel, reChannel,
+} = channels.actions;
 export default channels.reducer;

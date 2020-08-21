@@ -7,6 +7,7 @@ export const sendMessage = createAsyncThunk(
   'messages/addMessage',
   async ({ channelId, text, author }, { dispatch }) => {
     try {
+      console.log(author)
       await axios.post(routes.channelMessagesPath(channelId), {
         data: {
           attributes: {
@@ -16,9 +17,9 @@ export const sendMessage = createAsyncThunk(
         },
       });
     } catch (err) {
-      //if (!err.response) {
-        //dispatch(errorActions.addError(err));
-        //throw err;
+      // if (!err.response) {
+      // dispatch(errorActions.addError(err));
+      // throw err;
       console.log(err);
     }
   },
