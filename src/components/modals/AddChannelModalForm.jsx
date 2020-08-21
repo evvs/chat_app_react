@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -11,19 +11,24 @@ const mapActionsToProps = { closeModal: close, addNewChannelAsync: addNewChannel
 const AddChannelModalForm = (props) => {
   const { closeModal, addNewChannelAsync } = props;
 
+  const inputEl = useRef(null);
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
+
   const handleClose = () => {
     closeModal();
   };
 
   const formik = useFormik({
     initialValues: {
-      channel: '',
+      channelName: '',
     },
     onSubmit: (values) => {
       addNewChannelAsync({
-        name: values.channel,
+        name: values.channelName,
       });
-      console.log('success', values.channel);
+      console.log('success', values.channelName);
     },
   });
   return (
@@ -35,12 +40,12 @@ const AddChannelModalForm = (props) => {
         <label htmlFor="email">Channel name: </label>
         <input
           className="form-control"
-          id="channel"
-          name="channel"
+          id="channelName"
+          name="channelName"
           type="text"
-          required
+          ref={inputEl}
           onChange={formik.handleChange}
-          value={formik.values.channel}
+          value={formik.values.channelName}
         />
       </Modal.Body>
       <Modal.Footer>
