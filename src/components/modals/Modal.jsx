@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import { close } from '../../slices/modal';
 import AddChannelModalForm from './AddChannelModalForm';
+import DeleteChannelModal from './DeleteChannelModal';
 
 const mapActionsToProps = { closeModal: close };
 const mapStateToProps = ({ modal: { type, show } }) => ({ type, show });
 
 const modalTypes = {
   addChannel: <AddChannelModalForm />,
+  deleteChannel: <DeleteChannelModal />,
 };
 
 const ModalComponent = (props) => {

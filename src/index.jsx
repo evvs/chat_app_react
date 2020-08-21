@@ -39,7 +39,11 @@ const socket = io();
 socket.on('connect', () => console.log('connected to socket!!!'));
 socket.on('newMessage', ({ data: { attributes } }) => store.dispatch(addMessage(attributes)));
 socket.on('newChannel', ({ data: { attributes } }) => store.dispatch(addChannel(attributes)));
+socket.on('removeChannel', (data) => console.log(data));
+
 
 render(
   <Provider store={store}><App /></Provider>, document.getElementById('chat'),
 );
+
+export default store.dispatch;

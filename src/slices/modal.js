@@ -5,11 +5,15 @@ const modal = createSlice({
   initialState: {
     type: '',
     show: false,
+    clickedElemId: null,
+    clickedElemName: '',
   },
   reducers: {
     open: (state, action) => ({
       type: action.payload.type,
       show: true,
+      clickedElemId: action.payload.id || null,
+      clickedElemName: action.payload.name || '',
     }),
     close: () => ({
       type: '',

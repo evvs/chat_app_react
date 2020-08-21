@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import routes from '../routes';
+import { close } from './modal';
 
 export const addNewChannel = createAsyncThunk(
   'channels/addNewChannel',
@@ -13,6 +14,23 @@ export const addNewChannel = createAsyncThunk(
           },
         },
       });
+      dispatch(close());
+    } catch (err) {
+      //if (!err.response) {
+      //dispatch(errorActions.addError(err));
+      //throw err;
+      console.log(err);
+    }
+  },
+);
+
+export const deleteChannel = createAsyncThunk(
+  'channels/deleteChannel',
+  async (id, { dispatch }) => {
+    try {
+      console.log(id);
+      await axios.delete(routes.channelPath(id), { params: { id } });
+      dispatch(close());
     } catch (err) {
       //if (!err.response) {
       //dispatch(errorActions.addError(err));

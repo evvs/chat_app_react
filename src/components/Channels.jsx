@@ -3,23 +3,50 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import React from 'react';
 import { connect } from 'react-redux';
 import { setCurrentChannel } from '../slices/channels';
-import AddChannelButton from "./AddChannelButton";
+import AddChannelButton from './AddChannelButton';
+import { open } from '../slices/modal';
 
 const mapStateToProps = ({ channels }) => ({ channels });
 const mapActionsToProps = {
   setChannel: setCurrentChannel,
+  openModal: open,
 };
 
+const OptionsButtons = (props) => {
+  const { channelId, channelName, openModal } = props;
+
+  const clickHandler = (type) => (event) => {
+    event.stopPropagation();
+    openModal({
+      type,
+      id: channelId,
+      name: channelName,
+    });
+  };
+
+  return (
+    <div className="d-flex">
+      <div className="px-2" onClick={clickHandler('renameChannel')}>r</div>
+      <div className="px-2" onClick={clickHandler('deleteChannel')}>х</div>
+    </div>
+  );
+};
+
+connect(null, mapActionsToProps)(OptionsButtons);
+
 const Channels = (props) => {
-  const { channels: { allChannels, currentChannel }, setChannel } = props;
+  const { channels: { allChannels, currentChannel }, setChannel, openModal } = props;
   const changeChannelHandler = (id) => (event) => {
     event.preventDefault();
     setChannel({ id });
   };
 
   const buttons = allChannels.map(({ name, id}) => (
-    <Button key={id} active={currentChannel === id} onClick={changeChannelHandler(id)} name={name}>
-      {name}
+    <Button key={id} active={currentChannel === id} onClick={changeChannelHandler(id)} name={name} className="d-flex justify-content-between">
+      <div className="flex-grow-1 overflow-hidden">{name}</div>
+      <div>
+      <OptionsButtons channelId={id} openModal={openModal} channelName={name}/>
+    </div>
     </Button>
   ));
   return (

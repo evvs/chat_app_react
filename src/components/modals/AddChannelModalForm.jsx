@@ -22,7 +22,7 @@ const AddChannelModalForm = (props) => {
     onSubmit: (values) => {
       addNewChannelAsync({
         name: values.channel,
-      })
+      });
       console.log('success', values.channel);
     },
   });
