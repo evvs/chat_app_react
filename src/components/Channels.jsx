@@ -13,7 +13,9 @@ const mapActionsToProps = {
 };
 
 const OptionsButtons = (props) => {
-  const { channelId, channelName, openModal, removable } = props;
+  const {
+    channelId, channelName, openModal, removable,
+  } = props;
 
   const clickHandler = (type) => (event) => {
     event.stopPropagation();
@@ -26,11 +28,10 @@ const OptionsButtons = (props) => {
 
   return (
     <div className="d-flex">
-      <div className="px-2 text-success" onClick={clickHandler('renameChannel')}>r</div>
+      <div role="button" className="px-2 text-success" onClick={clickHandler('renameChannel')}>r</div>
       {removable
         ? <div className="px-2 text-danger" onClick={clickHandler('deleteChannel')}>х</div>
-        : <div className="px-2 text-black-50">х</div>
-        }
+        : <div className="px-2 text-black-50">х</div>}
     </div>
   );
 };
@@ -48,8 +49,13 @@ const Channels = (props) => {
     <Button key={id} active={currentChannel === id} onClick={changeChannelHandler(id)} name={name} className="d-flex justify-content-between">
       <div className="flex-grow-1 overflow-hidden">{name}</div>
       <div>
-      <OptionsButtons channelId={id} openModal={openModal} channelName={name} removable={removable}/>
-    </div>
+        <OptionsButtons
+          channelId={id}
+          openModal={openModal}
+          channelName={name}
+          removable={removable}
+        />
+      </div>
     </Button>
   ));
   return (

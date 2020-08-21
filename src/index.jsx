@@ -11,7 +11,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-import { init, addChannel, delChannel, reChannel } from './slices/channels';
+import {
+  init, addChannel, delChannel, reChannel,
+} from './slices/channels';
+
 import { addMessage } from './slices/messages';
 import reducers from './slices';
 import App from './components/App';

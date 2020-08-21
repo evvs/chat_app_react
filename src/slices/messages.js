@@ -7,7 +7,6 @@ export const sendMessage = createAsyncThunk(
   'messages/addMessage',
   async ({ channelId, text, author }, { dispatch }) => {
     try {
-      console.log(author)
       await axios.post(routes.channelMessagesPath(channelId), {
         data: {
           attributes: {

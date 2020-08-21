@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -32,7 +32,7 @@ const AddChannelModalForm = (props) => {
     },
   });
   return (
-  <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <Modal.Header closeButton>
         <Modal.Title>ADD CHANNEL</Modal.Title>
       </Modal.Header>
@@ -56,7 +56,7 @@ const AddChannelModalForm = (props) => {
           Add
         </Button>
       </Modal.Footer>
-</form>
+    </form>
   );
 };
 

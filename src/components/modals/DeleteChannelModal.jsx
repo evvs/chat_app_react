@@ -12,7 +12,9 @@ const mapStateToProps = ({ modal: { clickedElemId, clickedElemName } }) => ({
 });
 
 const DeleteChannelModal = (props) => {
-  const { closeModal, deleteChannelAsync, clickedElemId, clickedElemName } = props;
+  const {
+    closeModal, deleteChannelAsync, clickedElemId, clickedElemName,
+  } = props;
 
   const handleClose = () => {
     closeModal();
@@ -22,7 +24,7 @@ const DeleteChannelModal = (props) => {
     deleteChannelAsync(clickedElemId);
   };
 
-  return(
+  return (
     <>
       <Modal.Header closeButton>
         <Modal.Title><span className="text-danger">DELETE CHANNEL</span></Modal.Title>
@@ -45,6 +47,6 @@ const DeleteChannelModal = (props) => {
       </Modal.Footer>
     </>
   );
-}
+};
 
 export default connect(mapStateToProps, mapActionsToProps)(DeleteChannelModal);

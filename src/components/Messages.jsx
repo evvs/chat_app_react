@@ -10,7 +10,7 @@ const Messages = (props) => {
   const { messages, currentChannelId } = props;
   const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
   return (
-      <div className="overflow-auto">
+    <div className="overflow-auto">
       {currentChannelMessages.map(({ id, author, text }) => (
         <div key={id} className="text-break">
           <span className="text-primary">{author}</span>
@@ -18,7 +18,7 @@ const Messages = (props) => {
           {text}
         </div>
       ))}
-      </div>
+    </div>
   );
 };
 
