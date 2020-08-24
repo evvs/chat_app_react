@@ -28,10 +28,10 @@ const OptionsButtons = (props) => {
 
   return (
     <div className="d-flex">
-      <div role="button" className="px-2 text-success" onClick={clickHandler('renameChannel')}>r</div>
+      <div role="button" title="Переименовать" className="px-2 text-warning" onClick={clickHandler('renameChannel')}>r</div>
       {removable
-        ? <div className="px-2 text-danger" onClick={clickHandler('deleteChannel')}>х</div>
-        : <div className="px-2 text-black-50">х</div>}
+        ? <div title="Удалить" className="px-2 text-danger" onClick={clickHandler('deleteChannel')}>х</div>
+        : <div title="Нельзя удалить" className="px-2 text-black-50">х</div>}
     </div>
   );
 };
@@ -45,7 +45,7 @@ const Channels = (props) => {
     setChannel({ id });
   };
 
-  const buttons = allChannels.map(({ name, id, removable}) => (
+  const buttons = allChannels.map(({ name, id, removable }) => (
     <Button key={id} active={currentChannel === id} onClick={changeChannelHandler(id)} name={name} className="d-flex justify-content-between">
       <div className="flex-grow-1 overflow-hidden">{name}</div>
       <div>
@@ -60,11 +60,19 @@ const Channels = (props) => {
   ));
   return (
     <div>
-      <div className="text-muted text-center">Channels</div>
+      <div className="text-muted text-center">
+        Channels
+        {' '}
+        <span title="Каналы general и random нельзя удалить">
+          <i className="fa fa-info-circle" aria-hidden="true" />
+        </span>
+      </div>
       <AddChannelButton />
-      <ButtonGroup vertical className="d-flex">
-        {buttons}
-      </ButtonGroup>
+      <div className="overflow-auto">
+        <ButtonGroup vertical className="d-flex">
+          {buttons}
+        </ButtonGroup>
+      </div>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import routes from '../routes';
 import { close } from './modal';
+import { showError } from './errors';
 
 export const addNewChannel = createAsyncThunk(
   'channels/addNewChannel',
@@ -16,10 +17,8 @@ export const addNewChannel = createAsyncThunk(
       });
       dispatch(close());
     } catch (err) {
-      // if (!err.response) {
-      // dispatch(errorActions.addError(err));
-      // throw err;
-      console.log(err);
+      dispatch(showError(err));
+      throw err;
     }
   },
 );
@@ -28,7 +27,6 @@ export const renameChannel = createAsyncThunk(
   'channels/renameChannel',
   async ({ id, name }, { dispatch }) => {
     try {
-      console.log(id);
       await axios.patch(routes.channelPath(id), {
         data: {
           attributes: {
@@ -39,10 +37,8 @@ export const renameChannel = createAsyncThunk(
       { params: { id } });
       dispatch(close());
     } catch (err) {
-      // if (!err.response) {
-      // dispatch(errorActions.addError(err));
-      // throw err;
-      console.log(err);
+      dispatch(showError(err));
+      throw err;
     }
   },
 );
@@ -51,14 +47,11 @@ export const deleteChannel = createAsyncThunk(
   'channels/deleteChannel',
   async (id, { dispatch }) => {
     try {
-      console.log(id);
       await axios.delete(routes.channelPath(id), { params: { id } });
       dispatch(close());
     } catch (err) {
-      // if (!err.response) {
-      // dispatch(errorActions.addError(err));
-      // throw err;
-      console.log(err);
+      dispatch(showError(err));
+      throw err;
     }
   },
 );

@@ -28,7 +28,6 @@ const AddChannelModalForm = (props) => {
       addNewChannelAsync({
         name: values.channelName,
       });
-      console.log('success', values.channelName);
     },
   });
   return (
@@ -37,16 +36,19 @@ const AddChannelModalForm = (props) => {
         <Modal.Title>ADD CHANNEL</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <label htmlFor="email">Channel name: </label>
-        <input
-          className="form-control"
-          id="channelName"
-          name="channelName"
-          type="text"
-          ref={inputEl}
-          onChange={formik.handleChange}
-          value={formik.values.channelName}
-        />
+        <label htmlFor="channelName" className="d-block">
+          Channel name:
+          <input
+            className="form-control"
+            id="channelName"
+            name="channelName"
+            type="text"
+            ref={inputEl}
+            required
+            onChange={formik.handleChange}
+            value={formik.values.channelName}
+          />
+        </label>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>

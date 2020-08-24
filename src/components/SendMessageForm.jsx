@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { connect } from 'react-redux';
 import { sendMessage } from '../slices/messages';
 import { UserNameContext } from '../Context';
+import ThrowNewErrorButton from './errors/ThrowErrorButton';
 
 const mapActionsToProps = {
   sendMessageAsync: sendMessage,
@@ -40,6 +41,7 @@ const SendMessageForm = (props) => {
           required
         />
       </form>
+      <ThrowNewErrorButton />
     </div>
   );
 };

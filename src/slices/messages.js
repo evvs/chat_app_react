@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import routes from '../routes';
 import { init } from './channels';
+import { showError } from './errors';
 
 export const sendMessage = createAsyncThunk(
   'messages/addMessage',
@@ -16,10 +17,20 @@ export const sendMessage = createAsyncThunk(
         },
       });
     } catch (err) {
-      // if (!err.response) {
-      // dispatch(errorActions.addError(err));
-      // throw err;
-      console.log(err);
+      dispatch(showError(err));
+      throw err;
+    }
+  },
+);
+
+export const throwTestError = createAsyncThunk(
+  'messages/throwTestError',
+  async (url, { dispatch }) => {
+    try {
+      await axios.get(url);
+    } catch (err) {
+      dispatch(showError(err));
+      throw err;
     }
   },
 );

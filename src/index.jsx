@@ -55,5 +55,3 @@ render(
     </UserNameProvider>
   </Provider>, document.getElementById('chat'),
 );
-
-export default store.dispatch;
