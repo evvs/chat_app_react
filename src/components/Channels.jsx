@@ -28,9 +28,9 @@ const OptionsButtons = (props) => {
 
   return (
     <div className="d-flex">
-      <div role="button" title="Переименовать" className="px-2 text-warning" onClick={clickHandler('renameChannel')}>r</div>
+      <div tabIndex={0} role="button" title="Переименовать" className="px-2 text-warning" onClick={clickHandler('renameChannel')} onKeyPress={clickHandler}>r</div>
       {removable
-        ? <div title="Удалить" className="px-2 text-danger" onClick={clickHandler('deleteChannel')}>х</div>
+        ? <div tabIndex={0} role="button" title="Удалить" className="px-2 text-danger" onClick={clickHandler('deleteChannel')} onKeyPress={clickHandler}>х</div>
         : <div title="Нельзя удалить" className="px-2 text-black-50">х</div>}
     </div>
   );
