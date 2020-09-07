@@ -1,29 +1,24 @@
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../slices/channels';
 import AddChannelButton from './AddChannelButton';
 import { open } from '../slices/modal';
 
-const mapStateToProps = ({ channels }) => ({ channels });
-const mapActionsToProps = {
-  setChannel: setCurrentChannel,
-  openModal: open,
-};
-
 const OptionsButtons = (props) => {
   const {
-    channelId, channelName, openModal, removable,
+    channelId, channelName, removable,
   } = props;
+  const dispatch = useDispatch();
 
   const clickHandler = (type) => (event) => {
     event.stopPropagation();
-    openModal({
+    dispatch(open({
       type,
       id: channelId,
       name: channelName,
-    });
+    }));
   };
 
   return (
@@ -36,13 +31,14 @@ const OptionsButtons = (props) => {
   );
 };
 
-connect(null, mapActionsToProps)(OptionsButtons);
+const Channels = () => {
+  const dispatch = useDispatch();
+  const allChannels = useSelector((state) => state.channels.allChannels);
+  const currentChannel = useSelector((state) => state.channels.currentChannel);
 
-const Channels = (props) => {
-  const { channels: { allChannels, currentChannel }, setChannel, openModal } = props;
   const changeChannelHandler = (id) => (event) => {
     event.preventDefault();
-    setChannel({ id });
+    dispatch(setCurrentChannel({ id }));
   };
 
   const buttons = allChannels.map(({ name, id, removable }) => (
@@ -51,7 +47,6 @@ const Channels = (props) => {
       <div>
         <OptionsButtons
           channelId={id}
-          openModal={openModal}
           channelName={name}
           removable={removable}
         />
@@ -77,4 +72,4 @@ const Channels = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(Channels);
+export default Channels;

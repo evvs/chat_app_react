@@ -1,21 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
 import { close } from '../../slices/modal';
 import { renameChannel } from '../../slices/channels';
 
-const mapActionsToProps = { closeModal: close, renameChannelAsync: renameChannel };
-const mapStateToProps = ({ modal: { clickedElemId } }) => ({
-  clickedElemId,
-});
-
-const AddChannelModalForm = (props) => {
-  const { closeModal, renameChannelAsync, clickedElemId } = props;
+const AddChannelModalForm = () => {
+  const dispatch = useDispatch();
+  const clickedElemId = useSelector((state) => state.modal.clickedElemId);
 
   const handleClose = () => {
-    closeModal();
+    dispatch(close());
   };
   const inputEl = useRef(null);
   useEffect(() => {
@@ -27,11 +23,11 @@ const AddChannelModalForm = (props) => {
       id: clickedElemId,
       channelName: '',
     },
-    onSubmit: (values) => {
-      renameChannelAsync({
+    onSubmit: async (values) => {
+      await dispatch(renameChannel({
         id: clickedElemId,
         name: values.channelName,
-      });
+      }));
     },
   });
   return (
@@ -65,4 +61,4 @@ const AddChannelModalForm = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(AddChannelModalForm);
+export default AddChannelModalForm;

@@ -1,15 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-const mapStateToProps = (state) => ({ currentErrors: state.errors });
+import { useSelector } from 'react-redux';
 
 const Error = (props) => {
   const { text } = props;
   return <div className="bg-danger p-3 mb-2 ml-1 rounded text-white">{text}</div>;
 };
 
-const ErrorContainer = (props) => {
-  const { currentErrors } = props;
+const ErrorContainer = () => {
+  const currentErrors = useSelector((state) => state.errors);
 
   return (
     <div className="errors-container">
@@ -18,4 +16,4 @@ const ErrorContainer = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(ErrorContainer);
+export default ErrorContainer;

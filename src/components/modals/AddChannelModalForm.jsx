@@ -1,15 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
 import { close } from '../../slices/modal';
 import { addNewChannel } from '../../slices/channels';
 
-const mapActionsToProps = { closeModal: close, addNewChannelAsync: addNewChannel };
-
-const AddChannelModalForm = (props) => {
-  const { closeModal, addNewChannelAsync } = props;
+const AddChannelModalForm = () => {
+  const dispatch = useDispatch();
 
   const inputEl = useRef(null);
   useEffect(() => {
@@ -17,17 +15,17 @@ const AddChannelModalForm = (props) => {
   }, []);
 
   const handleClose = () => {
-    closeModal();
+    dispatch(close());
   };
 
   const formik = useFormik({
     initialValues: {
       channelName: '',
     },
-    onSubmit: (values) => {
-      addNewChannelAsync({
+    onSubmit: async (values) => {
+      await dispatch(addNewChannel({
         name: values.channelName,
-      });
+      }));
     },
   });
   return (
@@ -62,4 +60,4 @@ const AddChannelModalForm = (props) => {
   );
 };
 
-export default connect(null, mapActionsToProps)(AddChannelModalForm);
+export default AddChannelModalForm;

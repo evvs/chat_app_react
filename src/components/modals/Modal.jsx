@@ -1,13 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import { close } from '../../slices/modal';
 import AddChannelModalForm from './AddChannelModalForm';
 import DeleteChannelModal from './DeleteChannelModal';
 import RenameChannelModal from './RenameChannelModal';
-
-const mapActionsToProps = { closeModal: close };
-const mapStateToProps = ({ modal: { type, show } }) => ({ type, show });
 
 const modalTypes = {
   addChannel: <AddChannelModalForm />,
@@ -15,12 +12,14 @@ const modalTypes = {
   renameChannel: <RenameChannelModal />,
 };
 
-const ModalComponent = (props) => {
-  const { show, closeModal, type } = props;
+const ModalComponent = () => {
+  const dispatch = useDispatch();
+  const type = useSelector((state) => state.modal.type);
+  const show = useSelector((state) => state.modal.show);
   const body = modalTypes[type];
 
   const handleClose = () => {
-    closeModal();
+    dispatch(close());
   };
 
   return (
@@ -30,4 +29,4 @@ const ModalComponent = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(ModalComponent);
+export default ModalComponent;

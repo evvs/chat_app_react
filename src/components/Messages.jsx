@@ -1,14 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const mapStateToProps = ({ messages, channels }) => ({
-  messages,
-  currentChannelId: channels.currentChannel,
-});
-
-const Messages = (props) => {
-  const { messages, currentChannelId } = props;
-  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
+const Messages = () => {
+  const messages = useSelector((state) => state.messages);
+  const currentChannel = useSelector((state) => state.channels.currentChannel);
+  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannel);
   return (
     <div className="overflow-auto">
       {currentChannelMessages.map(({ id, author, text }) => (
@@ -22,4 +18,4 @@ const Messages = (props) => {
   );
 };
 
-export default connect(mapStateToProps)(Messages);
+export default Messages;

@@ -1,14 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { open } from '../slices/modal';
 
-const mapActionsToProps = { openModal: open };
-
-const AddChannelButton = (props) => {
-  const { openModal } = props;
+const AddChannelButton = () => {
+  const dispatch = useDispatch();
   const openHandle = () => {
-    openModal({ type: 'addChannel' });
+    dispatch(open({ type: 'addChannel' }));
   };
 
   return (
@@ -16,4 +14,4 @@ const AddChannelButton = (props) => {
   );
 };
 
-export default connect(null, mapActionsToProps)(AddChannelButton);
+export default AddChannelButton;

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import delay from '../utils';
+import { delay } from 'nanodelay';
 
 const errors = createSlice({
   name: 'errors',

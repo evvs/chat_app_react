@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import routes from '../routes';
@@ -82,10 +84,11 @@ const channels = createSlice({
     },
     delChannel: (state, action) => {
       const { channelId } = action.payload;
-      const newChannelList = state.allChannels.filter(({ id }) => id !== channelId);
-      return { ...state, allChannels: newChannelList };
+      state.allChannels = state.allChannels.filter(({ id }) => id !== channelId);
     },
-    setCurrentChannel: (state, action) => ({ ...state, currentChannel: action.payload.id }),
+    setCurrentChannel: (state, action) => {
+      state.currentChannel = action.payload.id;
+    },
   },
   extraReducers: {
     [renameChannel.fulfilled]: () => {},

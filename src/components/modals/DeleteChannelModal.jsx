@@ -1,27 +1,21 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { deleteChannel } from '../../slices/channels';
 import { close } from '../../slices/modal';
 
-const mapActionsToProps = { closeModal: close, deleteChannelAsync: deleteChannel };
-const mapStateToProps = ({ modal: { clickedElemId, clickedElemName } }) => ({
-  clickedElemId,
-  clickedElemName,
-});
-
-const DeleteChannelModal = (props) => {
-  const {
-    closeModal, deleteChannelAsync, clickedElemId, clickedElemName,
-  } = props;
+const DeleteChannelModal = () => {
+  const dispatch = useDispatch();
+  const clickedElemId = useSelector((state) => state.modal.clickedElemId);
+  const clickedElemName = useSelector((state) => state.modal.clickedElemName);
 
   const handleClose = () => {
-    closeModal();
+    dispatch(close());
   };
 
-  const handleDelete = () => {
-    deleteChannelAsync(clickedElemId);
+  const handleDelete = async () => {
+    await dispatch(deleteChannel(clickedElemId));
   };
 
   return (
@@ -49,4 +43,4 @@ const DeleteChannelModal = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(DeleteChannelModal);
+export default DeleteChannelModal;
