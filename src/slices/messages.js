@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import routes from '../routes';
-import { init } from './channels';
 import { showError } from './errors';
+import { delChannel } from './channels';
 
 export const sendMessage = createAsyncThunk(
   'messages/addMessage',
@@ -36,7 +36,7 @@ export const throwTestError = createAsyncThunk(
 );
 
 const messages = createSlice({
-  name: 'channels',
+  name: 'messages',
   initialState: [],
   reducers: {
     addMessage: (state, action) => {
@@ -49,8 +49,10 @@ const messages = createSlice({
     },
   },
   extraReducers: {
-    [sendMessage.fulfilled]: () => {},
-    [init]: (state, action) => action.payload.messages,
+    [delChannel]: (state, action) => {
+      const deletedChannelId = action.payload.channelId;
+      return state.filter(({ channelId }) => channelId !== deletedChannelId);
+    },
   },
 });
 
