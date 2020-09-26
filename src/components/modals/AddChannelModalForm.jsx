@@ -3,11 +3,13 @@ import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { close } from '../../slices/modal';
 import { addNewChannel } from '../../slices/channels';
 
 const AddChannelModalForm = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const inputEl = useRef(null);
   useEffect(() => {
@@ -31,11 +33,11 @@ const AddChannelModalForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <Modal.Header closeButton>
-        <Modal.Title>ADD CHANNEL</Modal.Title>
+        <Modal.Title>{t('modals.addChannel.header')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <label htmlFor="channelName" className="d-block">
-          Channel name:
+          {t('modals.addChannel.description')}
           <input
             className="form-control"
             id="channelName"
@@ -45,15 +47,16 @@ const AddChannelModalForm = () => {
             required
             onChange={formik.handleChange}
             value={formik.values.channelName}
+            autoComplete="off"
           />
         </label>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Cancel
+          {t('buttons.cancel')}
         </Button>
         <Button variant="primary" type="submit">
-          Add
+          {t('buttons.add')}
         </Button>
       </Modal.Footer>
     </form>

@@ -62,7 +62,7 @@ const channels = createSlice({
   name: 'channels',
   initialState: {
     allChannels: [],
-    currentChannel: null,
+    currentChannelId: null,
   },
   reducers: {
     reChannel: (state, action) => {
@@ -83,7 +83,7 @@ const channels = createSlice({
       state.allChannels = state.allChannels.filter(({ id }) => id !== channelId);
     },
     setCurrentChannel: (state, action) => {
-      state.currentChannel = action.payload.id;
+      state.currentChannelId = action.payload.id;
     },
   },
 });

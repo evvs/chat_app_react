@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendMessage } from '../slices/messages';
 import { UserNameContext } from '../Context';
@@ -7,9 +8,10 @@ import ThrowNewErrorButton from './errors/ThrowErrorButton';
 
 const SendMessageForm = () => {
   const dispatch = useDispatch();
-  const currentChannel = useSelector((state) => state.channels.currentChannel);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const userName = useContext(UserNameContext);
   const inputRef = useRef(null);
+  const { t } = useTranslation();
   const formik = useFormik({
     initialValues: {
       inputMessage: '',
@@ -17,7 +19,7 @@ const SendMessageForm = () => {
     onSubmit: async (values, { resetForm }) => {
       await dispatch(
         sendMessage({
-          channelId: currentChannel,
+          channelId: currentChannelId,
           author: userName,
           text: values.inputMessage,
         }),
@@ -38,7 +40,7 @@ const SendMessageForm = () => {
           className="btn btn-primary ml-1"
           disabled={formik.isSubmitting}
         >
-          Send
+          {t('buttons.send')}
         </button>
         <input
           id="inputMessage"
@@ -50,6 +52,7 @@ const SendMessageForm = () => {
           ref={inputRef}
           disabled={formik.isSubmitting}
           required
+          autoComplete="off"
         />
       </form>
       <ThrowNewErrorButton />

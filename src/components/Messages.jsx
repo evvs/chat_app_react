@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 
 const Messages = () => {
   const messages = useSelector((state) => state.messages);
-  const currentChannel = useSelector((state) => state.channels.currentChannel);
-  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannel);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const currentChannelMessages = messages.filter(({ channelId }) => channelId === currentChannelId);
   return (
     <div className="overflow-auto">
       {currentChannelMessages.map(({ id, author, text }) => (

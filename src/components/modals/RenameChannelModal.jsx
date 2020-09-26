@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { close } from '../../slices/modal';
 import { renameChannel } from '../../slices/channels';
 
 const AddChannelModalForm = () => {
   const dispatch = useDispatch();
   const clickedElemId = useSelector((state) => state.modal.clickedElemId);
+  const { t } = useTranslation();
 
   const handleClose = () => {
     dispatch(close());
@@ -33,11 +35,11 @@ const AddChannelModalForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <Modal.Header closeButton>
-        <Modal.Title>RENAME CHANNEL</Modal.Title>
+        <Modal.Title>{t('modals.renameChannel.header')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <label htmlFor="channelName" className="d-block">
-          New channel name:
+          {t('modals.renameChannel.description')}
           <input
             className="form-control"
             id="channelName"
@@ -46,15 +48,16 @@ const AddChannelModalForm = () => {
             ref={inputEl}
             onChange={formik.handleChange}
             value={formik.values.channelName}
+            autoComplete="off"
           />
         </label>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Cancel
+          {t('buttons.cancel')}
         </Button>
         <Button variant="primary" type="submit">
-          Rename
+          {t('buttons.rename')}
         </Button>
       </Modal.Footer>
     </form>

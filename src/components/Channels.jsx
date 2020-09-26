@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentChannel } from '../slices/channels';
 import AddChannelButton from './AddChannelButton';
@@ -34,7 +35,8 @@ const OptionsButtons = (props) => {
 const Channels = () => {
   const dispatch = useDispatch();
   const allChannels = useSelector((state) => state.channels.allChannels);
-  const currentChannel = useSelector((state) => state.channels.currentChannel);
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const { t } = useTranslation();
 
   const changeChannelHandler = (id) => (event) => {
     event.preventDefault();
@@ -42,7 +44,7 @@ const Channels = () => {
   };
 
   const buttons = allChannels.map(({ name, id, removable }) => (
-    <Button key={id} active={currentChannel === id} onClick={changeChannelHandler(id)} name={name} className="d-flex justify-content-between">
+    <Button key={id} active={currentChannelId === id} onClick={changeChannelHandler(id)} name={name} className="d-flex justify-content-between">
       <div className="flex-grow-1 overflow-hidden">{name}</div>
       <div>
         <OptionsButtons
@@ -54,11 +56,11 @@ const Channels = () => {
     </Button>
   ));
   return (
-    <div>
+    <div className="d-flex flex-column">
       <div className="text-muted text-center">
-        Channels
+        {t('channels')}
         {' '}
-        <span title="Каналы general и random нельзя удалить">
+        <span title={t('channelsInfoIcon')}>
           <i className="fa fa-info-circle" aria-hidden="true" />
         </span>
       </div>
